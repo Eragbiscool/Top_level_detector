@@ -20,7 +20,7 @@ def module_names():
             module_name.append(re.findall("module\s+(\D\S+)\(",line)[0])
         elif(re.findall("^\s?module\s+(\D\S+)",line)):
             module_name.append(re.findall("module\s+(\D\S+)",line)[0])
-        elif(re.findall("^\s?module[\n]",line) or flag==True):
+        elif(re.findall("^\s?module\s?[\n]",line) or flag==True):
             if(re.findall("\s+(\D\S+)\(",line)):
                 if(flag):
                     flag=False
