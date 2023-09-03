@@ -6,23 +6,21 @@ module_name = []
 findtop = {}
 new_filelist = {}
 wrapper_need = 0
-
-
-
-provide_filelist_path='Your_filepath_here'
-
+filelist_lines = ""
 
 
 
 
-if(re.split("\.",provide_filelist_path)[-1]=='gz'):
-    file=gzip.open('Onlyfinnaly.log.gz','rb')
-    filelist_lines=file.read()
-else:
-    file = open(provide_filelist_path, 'r')
+provide_filelist_path='!!put_your_filepath_here!!'
+
+
+
+
+
+def file_open(filelist_path):
+    global filelist_lines
+    file = open(filelist_path, 'r')
     filelist_lines = file.readlines()
-
-
 
 
 def module_names(Lines):
@@ -114,13 +112,15 @@ def file_process(Lines,filelist):
             instance_count(read_line,module_list[-1],findtop)
     else:
         module_list = []
-        files = open(Lines[0], 'r')
-        read_line = files.readlines()
+        if(re.split("\.",Lines[0])[-1]=='gz'):
+            file=gzip.open(Lines[0],'rb')
+            read_line=file.read()
+        else:
+            files = open(Lines[0], 'r')
+            read_line = files.readlines()
         module_list.append(module_names(read_line))
         instance_count(read_line,module_list[-1],findtop)
     return filelist
-
-
 
 
 def print_report(module_list,findtop):
@@ -169,7 +169,7 @@ def print_report(module_list,findtop):
 
 
 
-
+file_open(provide_filelist_path)
 
 file_process(filelist_lines,new_filelist)
 
