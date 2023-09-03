@@ -9,7 +9,7 @@ wrapper_need = 0
 
 
 
-provide_filelist_path='G:/Projects/top_level_detector/new_filelist.txt'
+provide_filelist_path='Your_filepath_here'
 
 
 
