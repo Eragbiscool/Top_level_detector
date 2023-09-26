@@ -15,7 +15,7 @@ filelist = []
 
 
 
-provide_filelist_path='G:/Projects/top_level_detector/all_files.txt'
+provide_filelist_path='!!!Put your filelist path here!!!'
 
 
 
