@@ -4,7 +4,7 @@ import gzip
 
 module_name = []
 findtop = {}
-lib_files = []
+lib_files = {}
 new_filelist={}
 wrapper_need = 0
 lib_true = 0
@@ -15,7 +15,7 @@ filelist = []
 
 
 
-provide_filelist_path='!!!Add your filelist path here!!!'
+provide_filelist_path='G:/Projects/top_level_detector/all_files.txt'
 
 
 
@@ -137,7 +137,8 @@ def find_top_def(findtop,top_module):
 def lib_finder(Lines,lib_files):
     filelist = open('new_filelist.txt',"w")
     filelist.close()
-
+    lib_files["lib"]    = []
+    lib_files["others"] = [] 
     counter = 0 
     if(len(Lines)==0):
         print("Please insert a valid filelist!")
@@ -167,10 +168,12 @@ def lib_finder(Lines,lib_files):
                 filelist.close()
             elif(counter>1):
                 # print("Lib file path: "+j)
-                lib_files.insert(0,j)
+                # lib_files.insert(0,j)
+                lib_files["lib"].append(j)
+
             else:
                 # print("These files maybe package or other non essential files: "+j)
-                lib_files.append(j)
+                lib_files["others"].append(j)
             counter = 0
 
     return lib_files
@@ -193,6 +196,26 @@ def print_report(module_list,findtop,lib_files,top_module):
     elif(number_of_module==0):
         print("Huh! Gotcha! Thought I would miss this huh? Now, Stop messing around and put a design file!!!")
     elif(wrapper_need==0):
+        
+        print('''
+            
+        ##################################################################
+        ######################     Report     ############################
+        ##################################################################''')
+        if(len(lib_files["lib"])!=0):
+            print('''
+                                Lib file path: \n''')
+            for i in lib_files["lib"]:
+                print('''
+        {}'''.format(i))
+            print("\t"+"==================================================================")
+            if(len(lib_files["others"])!=0):
+                print('''
+                                Misc file path: \n''')
+                for i in lib_files["others"]:
+                    print('''
+        {}'''.format(i))
+                print("\t"+"==================================================================")
         print("Please create a top level wrapper to the following modules, you don't have a top:")
         for i in top_module:
             print('''
@@ -203,18 +226,27 @@ def print_report(module_list,findtop,lib_files,top_module):
         ##################################################################
         ######################     Report     ############################
         ##################################################################''')
-        if(len(lib_files)!=0):
-            if(lib_files[0]):
+        if(len(lib_files["lib"])!=0):
+            print('''
+                                Lib file path: \n''')
+            for i in lib_files["lib"]:
                 print('''
-        lib file path  = {}
-        ------------------------------------------------------------------'''.format(lib_files[0]))
-                if(len(lib_files)>=2):
-                    for i in lib_files[1:-1]:
-                        print('''
-                            
-                    Package files and miscellaneous  = {}'''.format(i))
-                    print("             ------------------------------------------------------------------")
-                else: 
+        {}'''.format(i))
+            print("\t"+"==================================================================")
+            if(len(lib_files["others"])!=0):
+                print('''
+                                Misc file path: \n''')
+                for i in lib_files["others"]:
+                    print('''
+        {}'''.format(i))
+                print("\t"+"==================================================================")
+                print('''
+                    Total module count     = {}
+                    Name of The Top module = {} 
+        ##################################################################
+        ######################       end      ############################
+        ##################################################################'''.format(number_of_module,top))
+            else: 
                     print('''
                     Total module count     = {}
                     Name of The Top module = {} 
